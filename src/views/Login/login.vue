@@ -21,7 +21,7 @@
           </span>
         </el-form-item>
         <el-form-item style="margin-top:0;">
-          <el-button type="primary" style="width:100%">登录</el-button>
+          <el-button type="primary" style="width:100%" @click="check">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -48,6 +48,18 @@ export default {
           }
         } }]
       }
+    }
+  },
+  methods: {
+    check () {
+      console.log(this.$refs.form)
+      this.$refs.form.validate(function (isOK) {
+        if (isOK) {
+          console.log('验证通过')
+        } else {
+          console.log('输入信息有误，请重新输入')
+        }
+      })
     }
   }
 }
