@@ -53,11 +53,22 @@ export default {
   methods: {
     check () {
       console.log(this.$refs.form)
-      this.$refs.form.validate(function (isOK) {
+      this.$refs.form.validate(isOK => {
         if (isOK) {
-          console.log('验证通过')
+          this.$axios.post('/authorizations', { mobile: this.formdata.phonenumber, code: this.formdata.code }).then(res => {
+            window.localStorage.setItem('userID', res.data.data.token)
+            this.$router.push('/home')
+          }).catch(res => {
+            this.$message({
+              message: '您的手机号或者验证码不正确',
+              type: 'warning'
+            })
+          })
         } else {
-          console.log('输入信息有误，请重新输入')
+          this.$message({
+            message: '输入不可为空哦',
+            type: 'warning'
+          })
         }
       })
     }
