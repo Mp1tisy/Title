@@ -8,7 +8,9 @@
         <el-header height="55px" style="padding:0 10px;">
           <hometop></hometop>
         </el-header>
-        <el-main style="background-color:#f2f3f5;"></el-main>
+        <el-main style="background-color:#f2f3f5;">
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
