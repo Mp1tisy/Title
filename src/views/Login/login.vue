@@ -55,14 +55,9 @@ export default {
       this.$refs.form.validate(isOK => {
         if (isOK) {
           this.$axios.post('/authorizations', { mobile: this.formdata.phonenumber, code: this.formdata.code }).then(res => {
-            window.localStorage.setItem('userID', res.data.data.token)
+            window.localStorage.setItem('userID', res.data.token)
             this.$router.push('/home')
-          }).catch(res => {
-            this.$message({
-              message: '您的手机号或者验证码不正确',
-              type: 'warning'
-            })
-          })
+          }).catch(res => {})
         } else {
           this.$message({
             message: '输入不可为空哦',
