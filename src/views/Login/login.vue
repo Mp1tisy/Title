@@ -52,7 +52,6 @@ export default {
   },
   methods: {
     check () {
-      console.log(this.$refs.form)
       this.$refs.form.validate(isOK => {
         if (isOK) {
           this.$axios.post('/authorizations', { mobile: this.formdata.phonenumber, code: this.formdata.code }).then(res => {
