@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import router from '../router'
+import jsonbigint from 'json-bigint'
 
 export default axios
 
@@ -13,6 +14,10 @@ axios.interceptors.request.use(function (config) {
 }, function (error) {
   return Promise.reject(error)
 })
+
+axios.defaults.transformResponse = [function (data) {
+  return jsonbigint.parse(data)
+}]
 
 axios.interceptors.response.use(function (res) {
   if (res) {
