@@ -20,6 +20,9 @@ const routes = [
     }, {
       path: '/home/comment',
       component: () => import('../views/Comment/comment.vue')
+    }, {
+      path: '/home/material',
+      component: () => import('../views/Material/material.vue')
     }]
   }, {
     path: '/login',
