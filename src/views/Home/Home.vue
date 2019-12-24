@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-aside width="200px" style="overflow:hidden;">
+      <el-aside width="200px" style="overflow:hidden;background-color: rgb(53, 59, 78);">
         <homenav></homenav>
       </el-aside>
       <el-container>

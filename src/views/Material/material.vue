@@ -6,6 +6,11 @@
           <template slot="nowpage">素材管理</template>
         </breadcrumb>
       </el-breadcrumb>
+      <el-row type="flex" justify="end" style="margin-right:20px;">
+        <el-upload :http-request="upload" :show-file-list="false" action>
+          <el-button size="small" type="primary">点击上传</el-button>
+        </el-upload>
+      </el-row>
       <el-tabs v-model="activeName" @tab-click="tab">
         <el-tab-pane label="全部" name="all">
           <el-row>
@@ -21,10 +26,13 @@
                   <div
                     class="el-icon-star-on"
                     style="font-size:25px;flex:1;text-align: center;line-height:40px;"
+                    :style="{color: item.is_collected?'rgb(206, 72, 72)':''}"
+                    @click="collect(item)"
                   ></div>
                   <div
                     class="el-icon-delete"
                     style="font-size:25px;flex:1;text-align: center;line-height:40px;"
+                    @click="deleteimg(item)"
                   ></div>
                 </div>
               </el-card>
@@ -44,11 +52,14 @@
                 <div class="bottompic">
                   <div
                     class="el-icon-star-on"
-                    style="font-size:25px;flex:1;text-align: center;line-height:40px;color: rgb(206, 72, 72);"
+                    style="font-size:25px;flex:1;text-align: center;line-height:40px;"
+                    :style="{color: item.is_collected?'rgb(206, 72, 72)':''}"
+                    @click="collect(item)"
                   ></div>
                   <div
                     class="el-icon-delete"
                     style="font-size:25px;flex:1;text-align: center;line-height:40px;"
+                    @click="deleteimg(item)"
                   ></div>
                 </div>
               </el-card>
@@ -80,6 +91,41 @@ export default {
     }
   },
   methods: {
+    deleteimg (row) {
+      this.$axios({
+        url: `user/images/${row.id}`,
+        method: 'delete'
+      }).catch(res => {
+        this.getimage()
+      })
+    },
+    collect (row) {
+      this.$axios({
+        url: `user/images/${row.id}`,
+        method: 'put',
+        data: {
+          collect: !row.is_collected
+        }
+      }).then(res => {
+        this.getimage()
+      })
+    },
+    upload (data) {
+      let imagedata = new FormData()
+      imagedata.append('image', data.file)
+
+      this.$axios({
+        url: 'user/images',
+        method: 'post',
+        data: imagedata
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: '上传成功'
+        })
+        this.getimage()
+      })
+    },
     getimage () {
       this.$axios({
         url: 'user/images',
@@ -90,7 +136,6 @@ export default {
         }
       }).then(res => {
         this.allimage = res.data.results
-        console.log(res.data.total_count)
         this.total = res.data.total_count
       })
     },
@@ -145,5 +190,12 @@ export default {
   height: 40px;
   width: 100%;
   display: flex;
+}
+.el-icon-star-on {
+  cursor: pointer;
+}
+
+.el-icon-delete {
+  cursor: pointer;
 }
 </style>
